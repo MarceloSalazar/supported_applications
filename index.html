@@ -10,7 +10,7 @@ input{
 }
 table {
     border-collapse: collapse;
-    width: 80%;
+    width: 50%;
 }
 th, td {
     text-align: center;
@@ -21,7 +21,7 @@ th {
     background-color: #5499C7;
     color: white;
     font-style: bold;
-    font-size: 30px;
+    font-size: 25px;
 }
 </style>
 <script >
@@ -37,38 +37,48 @@ $.getJSON('applications.json').done(function (data) {
               var k = 0;
               var table_body = '<table border="1" id="example"><thead><tr> \
               <th>Connectivity</th>\
-              <th>Platform</th>\
+              <th>Platform vendor</th>\
+              <th>Board</th>\
               <th>Application</th>\
-              <th>Status</th>\
+              <th>Version</th>\
               </tr></thead><tbody>';
               for(j in json_obj){
                     table_body+='<tr>';
                     table_body +='<td>';
                     table_body += json_obj[k]["network"];
                     table_body +='</td>';
-                   
+
                     table_body +='<td>';
-                    table_body += json_obj[k]["targets"];
+                    table_body += json_obj[k]["vendor"];
+                    table_body +='</td>';
+
+                    i = 0
+                    table_body +='<td>';
+                    for(t in json_obj[k]["targets"]){
+                        table_body += '<p>'+json_obj[k]["targets"][i] +'</p>'
+                        i++;
+                    }
                     table_body +='</td>';
 
                     table_body +='<td>';
-                    table_body += 'xxx' // s'<a href=' + json_obj[k]["app_url"] + '>link' + '</a>'
+                    table_body += '<a href="' + json_obj[k]["app_url"] + '">link</a>'
                     table_body +='</td>';
             
                     table_body +='<td>';
-                    table_body += 'Working'
+                    table_body += json_obj[k]["version"];   
                     table_body +='</td>';
                 
                     table_body+='</tr>';
-              k++;
+                    
+                    k++;
              }
 
-                table_body+='</tbody></table>';
-               $('#tableDiv').html(table_body);
-              //display data..........
+            table_body+='</tbody></table>';
+            $('#tableDiv1').html(table_body);
+            //display data..........
 
 // for search function.................................. only............................
-        $("#search").on("keyup", function() {
+        $("#search1").on("keyup", function() {
         var value = $(this).val().toLowerCase();
         $("table tr").filter(function(index) {
           if(index>0){
@@ -81,12 +91,26 @@ $.getJSON('applications.json').done(function (data) {
 </script>
 </head>
 <body>
-<div style="margin-top: 50px; margin-left: 250px; margin-right: 250px;">
-    <b>Search:</b>
-<input type="text" id="search" placeholder="Search data here....."></input>
-    <div id="tableDiv" style="margin-top: 40px">
-    </div>
+
+<div style="margin-top: 50px; margin-left: 25px; margin-right: 250px;">
+
+<h1>Mbed OS board support for Arm Pelion</h1>
+
+  <h2>Boards supported in the <a href="https://cloud.mbed.com/quick-start">5-minute Quick-start</a></h2>
+  <div style="margin-top: 50px; margin-left: 25px; margin-right: 250px;">
+  <b>Search:</b>
+  <input type="text" id="search1" placeholder="Search data here....."></input>
+  <div id="tableDiv1" style="margin-top: 10px; margin-left: 25px; margin-bottom: 40px" ></div>
+
+  <h2>Advanced board support</a></h2>
+  <div style="margin-top: 50px; margin-left: 25px; margin-right: 250px;">
+  <b>Search:</b>
+  <input type="text" id="search2" placeholder="Search data here....."></input>
+  <div id="tableDiv2" style="margin-top: 10px; margin-left: 25px" ></div>
+  <b>Coming...</b>
+  <div style="margin-top: 50px; margin-left: 25px; margin-right: 250px;">
+
 </div>
-<p id="p1"></p>
+
 </body>
 </html>
