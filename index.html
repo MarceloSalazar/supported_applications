@@ -26,66 +26,134 @@ th {
 </style>
 <script >
 //JSON Object................
-var json_obj;
+var json_apps;
 $.getJSON('applications.json').done(function (data) {
-    json_obj = data;
+    json_apps = data;
 });
+
+var json_adv_apps;
+$.getJSON('adv_apps.json').done(function (data) {
+    json_adv_apps = data;
+});
+
 
 //JSON Object End................
 //Create table and fetch data from JSON Object.
         $(document).ready(function(){
-              var k = 0;
-              var table_body = '<table border="1" id="example"><thead><tr> \
-              <th>Connectivity</th>\
-              <th>Platform vendor</th>\
-              <th>Board</th>\
-              <th>Application</th>\
-              <th>Version</th>\
-              </tr></thead><tbody>';
-              for(j in json_obj){
-                    table_body+='<tr>';
-                    table_body +='<td>';
-                    table_body += json_obj[k]["network"];
-                    table_body +='</td>';
+        // Quick start applications
+        var k = 0;
+        var table_body = '<table data-number="one" border="1" id="example"><thead><tr> \
+        <th>Connectivity</th>\
+        <th>Platform vendor</th>\
+        <th>Board</th>\
+        <th>Application</th>\
+        <th>Version</th>\
+        </tr></thead><tbody>';
+        for(j in json_apps){
 
-                    table_body +='<td>';
-                    table_body += json_obj[k]["vendor"];
-                    table_body +='</td>';
+            table_body+='<tr>';
+            table_body +='<td>';
+            table_body += json_apps[k]["network"];
+            table_body +='</td>';
 
-                    i = 0
-                    table_body +='<td>';
-                    for(t in json_obj[k]["targets"]){
-                        table_body += '<p>'+json_obj[k]["targets"][i] +'</p>'
-                        i++;
-                    }
-                    table_body +='</td>';
+            table_body +='<td>';
+            table_body += json_apps[k]["vendor"];
+            table_body +='</td>';
 
-                    table_body +='<td>';
-                    table_body += '<a href="' + json_obj[k]["app_url"] + '">link</a>'
-                    table_body +='</td>';
+            i = 0
+            table_body +='<td>';
+            for(t in json_apps[k]["targets"]){
+                table_body += '<p>'+json_apps[k]["targets"][i] +'</p>'
+                i++;
+            }
+            table_body +='</td>';
+
+            table_body +='<td>';
+            table_body += '<a href="' + json_apps[k]["app_url"] + '">link</a>'
+            table_body +='</td>';
+    
+            table_body +='<td>';
+            table_body += json_apps[k]["version"];   
+            table_body +='</td>';
+        
+            table_body+='</tr>';
             
-                    table_body +='<td>';
-                    table_body += json_obj[k]["version"];   
-                    table_body +='</td>';
-                
-                    table_body+='</tr>';
-                    
-                    k++;
-             }
+            k++;
+        }
 
-            table_body+='</tbody></table>';
-            $('#tableDiv1').html(table_body);
-            //display data..........
+        table_body+='</tbody></table>';
+        $('#tableDiv1').html(table_body);
 
-// for search function.................................. only............................
+        // for search function.................................. only............................
         $("#search1").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("table tr").filter(function(index) {
-          if(index>0){
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            var value1 = $(this).val().toLowerCase();
+            $("table tr").filter(function(index1) {
+            if(index1>0){
+            $(this).toggle($(this).text().toLowerCase().indexOf(value1) > -1)
+            }
+        });
+        });
+
+        // Advanced applications
+        var k = 0;
+        var table_body2 = '<table border="1" id="example"><thead><tr> \
+        <th>Connectivity</th>\
+        <th>Platform vendor</th>\
+        <th>Board</th>\
+        <th>Shield</th>\
+        <th>Application</th>\
+        <th>Version</th>\
+        </tr></thead><tbody>';
+        for(j in json_adv_apps){
+    
+            table_body2 +='<div id="second">';
+
+            table_body2 +='<tr>';
+            table_body2 +='<td>';
+            table_body2 += json_adv_apps[k]["network"];
+            table_body2 +='</td>';
+
+            table_body2 +='<td>';
+            table_body2 += json_adv_apps[k]["vendor"];
+            table_body2 +='</td>';
+
+            i = 0
+            table_body2 +='<td>';
+            for(t in json_adv_apps[k]["targets"]){
+                table_body2 += '<p>'+json_adv_apps[k]["targets"][i] +'</p>'
+                i++;
+            }
+            table_body2 +='</td>';
+
+            table_body2 +='<td>';
+            table_body2 += 'shield TBC'
+            table_body2 +='</td>';
+
+            table_body2 +='<td>';
+            table_body2 += '<a href="' + json_adv_apps[k]["app_url"] + '">link</a>'
+            table_body2 +='</td>';
+    
+            table_body2 +='<td>';
+            table_body2 += json_adv_apps[k]["version"];   
+            table_body2 +='</td>';
+        
+            table_body2 +='</tr>';
+            table_body2 +='</div>';
+            k++;
+        }
+
+    table_body2 +='</tbody></table>';
+    $('#tableDiv2').html(table_body2);
+
+    $("#search2").on("keyup", function() {
+    var value2 = $(this).val().toLowerCase();
+    $("table tr").filter(function(index2) {
+    if(index2>0){
+        $(this).toggle($(this).text().toLowerCase().indexOf(value2) > -1)
     }
     });
-});
+    });
+
 //=================End=========================End===============================
         });
 </script>
@@ -107,7 +175,7 @@ $.getJSON('applications.json').done(function (data) {
   <b>Search:</b>
   <input type="text" id="search2" placeholder="Search data here....."></input>
   <div id="tableDiv2" style="margin-top: 10px; margin-left: 25px" ></div>
-  <b>Coming...</b>
+
   <div style="margin-top: 50px; margin-left: 25px; margin-right: 250px;">
 
 </div>
